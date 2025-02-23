@@ -14,8 +14,15 @@ def main():
 
 
 # List all active users on a system
+# List all active users on a system
 def get_active_users():
-    pass
+    print("=== Active Users on the System ===")
+    users = psutil.users()
+    for user in users:
+        print(user.name)  # print username
+
+if __name__ == "__main__":
+    get_active_users()
 
 # Identify installed software and versions
 def get_software_info():
