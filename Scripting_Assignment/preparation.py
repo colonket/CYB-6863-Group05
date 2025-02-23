@@ -29,11 +29,11 @@ def get_security_patches():
 def get_auto_runs():
     autoruns = []
 
-    # Common directories for autostart entries
+    # directories for autostart entries
     autostart_dirs = [
-        os.path.expanduser("~/.config/autostart"),  # User-specific autostart
-        "/etc/xdg/autostart",  # System-wide autostart
-        "/etc/init.d",  # Init.d scripts
+        os.path.expanduser("~/.config/autostart"),  # user specific autostart
+        "/etc/xdg/autostart",  # systemwide autostart
+        "/etc/init.d",  # init.d scripts
         "/lib/systemd/system",  # Systemd units
     ]
 
@@ -42,13 +42,13 @@ def get_auto_runs():
             for entry in os.listdir(dir):
                 autoruns.append(os.path.join(dir, entry))
 
-    # Check cron jobs
+    # checking cron jobs
     cron_jobs = ["/etc/crontab", "/etc/cron.d"]
     for job in cron_jobs:
         if os.path.exists(job):
             autoruns.append(job)
 
-    # List running services (optional)
+    # list running services (optional)
     for service in psutil.win_service_iter():
         autoruns.append(service.name())
 
@@ -57,7 +57,7 @@ def get_auto_runs():
 
     return autoruns
 
-# Identify USB History
+# identify USB History
 def get_usb_history():
     usb_history = []
 
@@ -68,7 +68,7 @@ def get_usb_history():
         print("Error running dmesg: ", e.output.decode('utf-8'))
         return []
 
-    # Regular expression to find USB events
+    # regular expression to find USB events
     usb_event_pattern = re.compile(r'(usb\s+\d+-\d+:\d+|new\s+high-speed\s+USB\s+device\s+number\s+\d+)')
     
     for line in dmesg_output.splitlines():
