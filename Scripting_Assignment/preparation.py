@@ -30,7 +30,23 @@ def get_software_info():
 
 # Check for missing security patches
 def get_security_patches():
-    pass
+
+    #updates then checks if security updates need to be upgraded
+    try:
+        subprocess.run(["sudo", "apt", "update"], check=True)
+        updates = subprocess.run(["apt", "list", "--upgradable"], capture_output=True, text=True, check=True).stdout
+        security_updates = [line for line in updates.split("\n") if "security" in line]
+
+        #then it will/won't upgrade accordingly
+        if security_updates:
+            print("Applying security updates...")
+            subprocess.run(["sudo", "apt", "upgrade", "-y"], check=True)
+        else:
+            print("No security updates available.")
+            
+    #in case it errors out
+    except subprocess.CalledProcessError as e:
+        print(f"Error updating system: {e}")
 
 # List auto runs
 def get_auto_runs():
