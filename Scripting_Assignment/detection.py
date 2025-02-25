@@ -6,7 +6,7 @@ import subprocess
 from collections import defaultdict
 
 # Log file path (adjust to your system)
-log_file = "auth.log"  # Example: /var/log/auth.log on Linux
+log_file = "/var/log/auth.log"  # Example: /var/log/auth.log on Linux
 
 # Failed login threshold
 threshold = 5
