@@ -85,7 +85,7 @@ def get_usb_history():
 
     # Run dmesg command to get kernel messages
     try:
-        dmesg_output = subprocess.check_output(['dmesg'], stderr=subprocess.STDOUT).decode('utf-8')
+        dmesg_output = subprocess.check_output(['sudo','dmesg'], stderr=subprocess.STDOUT).decode('utf-8')
     except subprocess.CalledProcessError as e:
         print("Error running dmesg: ", e.output.decode('utf-8'))
         return []
