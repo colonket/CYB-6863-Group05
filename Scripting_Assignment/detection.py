@@ -38,7 +38,7 @@ def analyze_logs():
                             try:
                                 subprocess.run(["sudo","iptables", "-A", "INPUT", "-s", ip, "-j", "DROP"], check=True)  # Adapt to your needs
                                 print(f"IP {ip} blocked.")
-                                blocked_ips.append(ip)
+                                blocked_ips.add(ip)
                             except subprocess.CalledProcessError as e:
                                 print(f"Error blocking IP: {e}")
 
