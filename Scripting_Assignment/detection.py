@@ -51,14 +51,17 @@ def monitor_privileged_logins():
         # Run ausearch command to get succesful  root login events
         success_output = subprocess.check_output(['sudo', 'ausearch', '-ul', '0', '-i', '-m', 'USER_LOGIN'], stderr=subprocess.STDOUT).decode('utf-8')
         print(success_output)
-        if success_output != "<no_matches>":
+        if "<no_matches>" not in success_output:
             for line in success_output.splitlines():
                 print(f"Privileged login detected: {line.strip()}")
+        else:
+            print("No successful root login events found.")
                     
-        # Run command to get failed root login events
-        fails_output = subprocess.check_output(['sudo', 'lastb', '|', 'grep', 'root'], stderr=subprocess.STDOUT).decode('utf-8')
+        # Run lastb command to get failed root login events and print root lines
+        fails_output = subprocess.check_output(['sudo', 'lastb'], stderr=subprocess.STDOUT).decode('utf-8')
         for line in fails_output.splitlines():
-            print(f"Failed privileged login detected: {line.strip()}")
+                if 'root' in line:
+                    print(f"Failed privileged login detected: {line.strip()}")
         
     except subprocess.CalledProcessError as e:
         print("Error running ausearch: ", e.output.decode('utf-8'))
@@ -66,7 +69,7 @@ def monitor_privileged_logins():
             
 if __name__ == "__main__":
     while True:
-        analyze_logs()
         monitor_privileged_logins()
+        #analyze_logs()
         print("\n")
         time.sleep(60)  # Check every minute
