@@ -26,6 +26,7 @@ def get_software_info():
 
 # Check for missing security patches
 def get_security_patches():
+    print("=== Get Security Patches ===")
 
     #updates then checks if security updates need to be upgraded
     try:
@@ -46,6 +47,7 @@ def get_security_patches():
 
 # List auto runs
 def get_auto_runs():
+    print("=== List Auto Runs ===")
     autoruns = []
 
     # directories for autostart entries
@@ -78,6 +80,7 @@ def get_auto_runs():
 
 # identify USB History
 def get_usb_history():
+    print("=== Identify USB History ===")
     usb_history = []
 
     # Run dmesg command to get kernel messages
