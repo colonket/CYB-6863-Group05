@@ -70,8 +70,8 @@ def get_auto_runs():
             autoruns.append(job)
 
     # list running services (optional)
-    for service in psutil.service_iter():
-        autoruns.append(service.name())
+    #for service in psutil.service_iter():
+    #    autoruns.append(service.name())
 
     for autorun in autoruns:
         print(autorun)
