@@ -69,3 +69,7 @@ def monitor_privileged_logins():
         except subprocess.CalledProcessError as e:
             print("Error running ausearch: ", e.output.decode('utf-8'))
             return
+            
+if __name__ == "__main__":
+    analyze_logs()
+    monitor_privileged_logins()
