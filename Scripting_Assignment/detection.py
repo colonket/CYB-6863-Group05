@@ -14,7 +14,7 @@ time_window = 600  # 10 minutes in seconds
 
 # Dictionary to store failed login attempts (IP: [timestamps])
 failed_attempts = defaultdict(list)
-blocked_ips = {} # IPs blocked by IP tables, because it exceeded threshhold
+blocked_ips = set() # IPs blocked by IP tables, because it exceeded threshhold
 
 def analyze_logs():
     while True:
