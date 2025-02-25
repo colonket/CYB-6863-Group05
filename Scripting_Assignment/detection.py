@@ -50,19 +50,12 @@ def analyze_logs():
             break
 
 def monitor_privileged_logins():
-    login_pattern = re.compile(r'USER_LOGIN.*?auid=(\d+)')
-
     while True:
         try:
-            output = subprocess.check_output(['sudo', 'ausearch', '-k', 'login_events', '-i'], stderr=subprocess.STDOUT).decode('utf-8')
-            
+            # Run ausearch command to get root login events
+            output = subprocess.check_output(['sudo', 'ausearch', '-k', 'login_events', '-ua', '0'], stderr=subprocess.STDOUT).decode('utf-8')
             for line in output.splitlines():
-                match = login_pattern.search(line)
-                if match:
-                    auid = int(match.group(1))
-                    # Check if auid is 0 (root user)
-                    if auid == 0:
-                        print(f"Privileged login detected: {line.strip()}")
+                print(f"Privileged login detected: {line.strip()}")
             
             time.sleep(5)
         
