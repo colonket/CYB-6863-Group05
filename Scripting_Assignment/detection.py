@@ -21,7 +21,7 @@ def analyze_logs():
             with open(log_file, "r") as f:
                 for line in f:
                     # Regex to extract IP and login status (adapt to your log format)
-                    match = re.search(r"(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).*(Failed|failure|invalid) password", line, re.IGNORECASE)
+                    match = re.search(r".*(Failed|failure|invalid) password.*from (?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})", line, re.IGNORECASE)
                     if match:
                         ip = match.group("ip")
                         failed_attempts[ip].append(time.time())
