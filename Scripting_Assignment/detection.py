@@ -64,9 +64,9 @@ def monitor_privileged_logins():
                 if 'root' in line:
                     print(f"Failed privileged login detected: {line.strip()}")
         
-    except subprocess.CalledProcessError as e:
-        print("Error running ausearch: ", e.output.decode('utf-8'))
-        return
+    #except subprocess.CalledProcessError as e:
+        #print("Error running ausearch: ", e.output.decode('utf-8'))
+        #return
             
 if __name__ == "__main__":
     while True:
