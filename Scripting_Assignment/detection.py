@@ -14,6 +14,7 @@ time_window = 600  # 10 minutes in seconds
 
 # Dictionary to store failed login attempts (IP: [timestamps])
 failed_attempts = defaultdict(list)
+blocked_ips = {} # IPs blocked by IP tables, because it exceeded threshhold
 
 def analyze_logs():
     while True:
@@ -30,14 +31,14 @@ def analyze_logs():
                         now = time.time()
                         recent_attempts = [t for t in failed_attempts[ip] if now - t < time_window]
                         failed_attempts[ip] = recent_attempts  # Keep only recent attempts
-                        if len(recent_attempts) >= threshold:
+                        if (len(recent_attempts) >= threshold) and (ip not in blocked_ips):
                             print(f"ALERT: Potential brute-force attack from IP: {ip}")
-                            
                             # You could add code here to block the IP (Bonus Challenge)
                             # Block the IP (iptables example - requires root privileges)
                             try:
-                                subprocess.run(["iptables", "-A", "INPUT", "-s", ip, "-j", "DROP"], check=True)  # Adapt to your needs
+                                subprocess.run(["sudo","iptables", "-A", "INPUT", "-s", ip, "-j", "DROP"], check=True)  # Adapt to your needs
                                 print(f"IP {ip} blocked.")
+                                blocked_ips.append(ip)
                             except subprocess.CalledProcessError as e:
                                 print(f"Error blocking IP: {e}")
 
