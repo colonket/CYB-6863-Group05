@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Preparation Phase - Asset Inventory Script
+# Operating System: Linux
 import os
 import psutil
 import subprocess
@@ -12,17 +13,12 @@ def main():
     get_auto_runs()
     get_usb_history()
 
-
-# List all active users on a system
 # List all active users on a system
 def get_active_users():
     print("=== Active Users on the System ===")
     users = psutil.users()
     for user in users:
         print(user.name)  # print username
-
-if __name__ == "__main__":
-    get_active_users()
 
 # Identify installed software and versions
 def get_software_info():
@@ -103,5 +99,5 @@ def get_usb_history():
 
     return usb_history
 
-if __name__ == __main__:
+if __name__ == "__main__":
     main()
