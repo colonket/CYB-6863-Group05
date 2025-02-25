@@ -53,8 +53,8 @@ def analyze_logs():
 def monitor_privileged_logins():
     while True:
         try:
-            # Run ausearch command to get root login events
-            output = subprocess.check_output(['sudo', 'ausearch', '-k', 'login_events', '-ua', '0'], stderr=subprocess.STDOUT).decode('utf-8')
+            # Run command to get failed root login events
+            output = subprocess.check_output(['sudo', 'lastb', '|', 'grep', 'root'], stderr=subprocess.STDOUT).decode('utf-8')
             for line in output.splitlines():
                 print(f"Privileged login detected: {line.strip()}")
             
