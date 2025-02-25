@@ -54,7 +54,7 @@ def monitor_privileged_logins():
 
     while True:
         try:
-            output = subprocess.check_output(['ausearch', '-k', 'login_events', '-i'], stderr=subprocess.STDOUT).decode('utf-8')
+            output = subprocess.check_output(['sudo', 'ausearch', '-k', 'login_events', '-i'], stderr=subprocess.STDOUT).decode('utf-8')
             
             for line in output.splitlines():
                 match = login_pattern.search(line)
