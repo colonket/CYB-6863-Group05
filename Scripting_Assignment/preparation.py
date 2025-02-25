@@ -22,7 +22,28 @@ def get_active_users():
 
 # Identify installed software and versions
 def get_software_info():
-    pass
+
+    #runs commands to collect info
+    def run_cmd(cmd, skip_header=False, split_by=None):
+        try:
+            result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True).stdout.strip()
+            lines = result.split("\n")
+            if skip_header:
+                lines = lines[1:]  # Skip first line (e.g., Snap header)
+            return [line.split(split_by)[:2] for line in lines[:10]] if split_by else lines[:10]
+        except:
+            return []
+
+    #displays info
+    print("\n=== System Information ===")
+    system_info = run_cmd(["lsb_release", "-d"])
+    print(system_info[0] if system_info else "Unknown")
+
+    print("\n=== Installed APT Packages ===")
+    apt_packages = run_cmd(["dpkg-query", "-W", "-f=${Package} ${Version}\n"], split_by=" ")
+    for pkg in apt_packages:
+        print(f"{pkg[0]} - {pkg[1]}" if len(pkg) > 1 else pkg[0])
+    print(f"...({len(apt_packages)} packages total)")
 
 # Check for missing security patches
 def get_security_patches():
