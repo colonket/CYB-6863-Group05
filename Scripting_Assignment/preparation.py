@@ -43,10 +43,10 @@ def get_active_users():
     else:
         for user in users:
             print(user.name)  # print username
+    print()
 
 # Identify installed software and versions
 def get_software_info():
-
     #runs commands to collect info
     def run_cmd(cmd, skip_header=False, split_by=None):
         try:
@@ -59,15 +59,17 @@ def get_software_info():
             return []
 
     #displays info
-    print("\n=== System Information ===")
+    print("=== System Information ===")
     system_info = run_cmd(["lsb_release", "-d"])
     print(system_info[0] if system_info else "Unknown")
+    print()
 
-    print("\n=== Installed APT Packages ===")
+    print("=== Installed APT Packages ===")
     apt_packages = run_cmd(["dpkg-query", "-W", "-f=${Package} ${Version}\n"], split_by=" ")
     for pkg in apt_packages:
         print(f"{pkg[0]} - {pkg[1]}" if len(pkg) > 1 else pkg[0])
     print(f"...({len(apt_packages)} packages total)")
+    print()
 
 # Check for missing security patches
 def get_security_patches():
@@ -89,6 +91,8 @@ def get_security_patches():
     #in case it errors out
     except subprocess.CalledProcessError as e:
         print(f"Error updating system: {e}")
+
+    print()
 
 # List auto runs
 def get_auto_runs():
@@ -121,6 +125,7 @@ def get_auto_runs():
     for autorun in autoruns:
         print(autorun)
 
+    print()
     return autoruns
 
 # identify USB History
@@ -145,6 +150,7 @@ def get_usb_history():
     for event in usb_history:
         print(event)
 
+    print()
     return usb_history
 
 if __name__ == "__main__":
