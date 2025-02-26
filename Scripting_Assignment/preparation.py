@@ -8,7 +8,7 @@ import re
 import argparse
 
 def main():
-    parser = argparse.ArgumentParser(description='How to use our script')
+    parser = argparse.ArgumentParser(description="Group 5 - Preparation Phase Automation Script")
     parser.add_argument("-a", "--active-users", action='store_true', help="List all active users")
     parser.add_argument("-s", "--software-info",action='store_true',help="Identify installed software and versions")
     parser.add_argument("-p", "--security-patches",action='store_true',help="Check for missing security patches")
