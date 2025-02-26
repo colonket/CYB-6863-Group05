@@ -4,6 +4,37 @@ import time
 import re
 import subprocess
 from collections import defaultdict
+import argparse
+
+def main():
+    parser = argparse.ArgumentParser(description="Group 5 - Detection Automation Script")
+    group = parser.add_argument_group('action')
+    group.add_argument("-b","--block-failed-logins",
+                       action='store_true',
+                       help="Block existing failed login attempts.")
+    group.add_argument("-r","--monitor-root-logins",
+                       action='store_true',
+                       help="Monitor root login attempts")
+    parser.add_argument("-i","--interval",
+                        type=int,
+                        default=None,
+                        help="Repeat action in interval of this many seconds")
+    args = parser.parse_args()
+
+    if args.block_failed_logins:
+        if(args.interval):
+            while True:
+                analyze_logs()
+                time.sleep(args.interval)
+        else:
+            analyze_logs()
+    if args.monitor_root_logins:
+        if(args.interval):
+            while True:
+                monitor_privileged_logins()
+                time.sleep(args.interval)
+        else:
+            monitor_privileged_logins()
 
 # Log file path (adjust to your system)
 log_file = "/var/log/auth.log"  # Example: /var/log/auth.log on Linux
@@ -15,7 +46,6 @@ time_window = 600  # 10 minutes in seconds
 # Dictionary to store failed login attempts (IP: [timestamps])
 failed_attempts = defaultdict(list)
 blocked_ips = set() # IPs blocked by IP tables, because it exceeded threshhold
-
 def analyze_logs():
     try:
         with open(log_file, "r") as f:
@@ -69,8 +99,4 @@ def monitor_privileged_logins():
         return
             
 if __name__ == "__main__":
-    while True:
-        monitor_privileged_logins()
-        #analyze_logs()
-        print("\n")
-        time.sleep(60)  # Check every minute
+    main()
