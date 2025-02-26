@@ -5,13 +5,34 @@ import os
 import psutil
 import subprocess
 import re
+import argparse
 
 def main():
-    get_active_users()
-    get_software_info()
-    get_security_patches()
-    get_auto_runs()
-    get_usb_history()
+    parser = argparse.ArgumentParser(description='How to use our script')
+    parser.add_argument("-a", "--active-users", action='store_true', help="List all active users")
+    parser.add_argument("-s", "--software-info",action='store_true',help="Identify installed software and versions")
+    parser.add_argument("-p", "--security-patches",action='store_true',help="Check for missing security patches")
+    parser.add_argument("-r", "--auto-runs",action='store_true',help="List processes that automatically run")
+    parser.add_argument("-u", "--usb-history",action='store_true',help="List USB Device history")
+    parser.add_argument("--all",action='store_true',help="Runs all options")
+    args = parser.parse_args()
+
+    if args.active_users:
+        get_active_users()
+    if args.software_info:
+        get_software_info()
+    if args.security_patches:
+        get_security_patches()
+    if args.auto_runs:
+        get_auto_runs()
+    if args.usb_history:
+        get_usb_history()
+    if args.all:
+        get_active_users()
+        get_software_info()
+        get_security_patches()
+        get_auto_runs()
+        get_usb_history()
 
 # List all active users on a system
 def get_active_users():
