@@ -5,18 +5,25 @@ import re
 import subprocess
 from collections import defaultdict
 
-# Log file path (adjust to your system)
-log_file = "/var/log/auth.log"  # Example: /var/log/auth.log on Linux
 
-# Failed login threshold
-threshold = 5
-time_window = 600  # 10 minutes in seconds
-
-# Dictionary to store failed login attempts (IP: [timestamps])
-failed_attempts = defaultdict(list)
-blocked_ips = set() # IPs blocked by IP tables, because it exceeded threshhold
+def main():
+    while True:
+        monitor_privileged_logins()
+        #analyze_logs()
+        print("\n")
+        time.sleep(60)  # Check every minute
 
 def analyze_logs():
+    # Log file path (adjust to your system)
+    log_file = "/var/log/auth.log"  # Example: /var/log/auth.log on Linux
+
+    # Failed login threshold
+    threshold = 5
+    time_window = 600  # 10 minutes in seconds
+
+    # Dictionary to store failed login attempts (IP: [timestamps])
+    failed_attempts = defaultdict(list)
+    blocked_ips = set() # IPs blocked by IP tables, because it exceeded threshhold
     try:
         with open(log_file, "r") as f:
             for line in f:
@@ -69,8 +76,4 @@ def monitor_privileged_logins():
         return
             
 if __name__ == "__main__":
-    while True:
-        monitor_privileged_logins()
-        #analyze_logs()
-        print("\n")
-        time.sleep(60)  # Check every minute
+    main()
