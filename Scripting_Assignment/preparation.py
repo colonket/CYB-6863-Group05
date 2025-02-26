@@ -36,10 +36,13 @@ def main():
 
 # List all active users on a system
 def get_active_users():
-    print("=== Active Users on the System ===")
+    print("=== Active Users on the System (besides current user)===")
     users = psutil.users()
-    for user in users:
-        print(user.name)  # print username
+    if not users:
+        print("[INFO] No active users found on system")
+    else:
+        for user in users:
+            print(user.name)  # print username
 
 # Identify installed software and versions
 def get_software_info():
