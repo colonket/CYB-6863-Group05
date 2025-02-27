@@ -43,7 +43,7 @@ def get_active_users():
     else:
         for user in users:
             print(user.name)  # print username
-        print(f"[INFO] {len[users]} other active users found")
+        print(f"[INFO] {len(users)} other active users found")
     print()
 
 # Identify installed software and versions
