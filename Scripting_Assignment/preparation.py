@@ -42,7 +42,7 @@ def get_active_users():
         print("[INFO] No active users found on system")
     else:
         for user in users:
-            print(user.name)  # print username
+            print(f"Username: {user.name}, Session ID: {user.terminal}")  # print username
         print(f"[INFO] {len(users)} other active users found")
     print()
 
