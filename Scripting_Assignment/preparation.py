@@ -36,14 +36,17 @@ def main():
 
 # List all active users on a system
 def get_active_users():
-    print("=== Active Users on the System ===")
+    print("=== Active Users on the System (besides current user)===")
     users = psutil.users()
-    for user in users:
-        print(user.name)  # print username
+    if not users:
+        print("[INFO] No active users found on system")
+    else:
+        for user in users:
+            print(user.name)  # print username
+    print()
 
 # Identify installed software and versions
 def get_software_info():
-
     #runs commands to collect info
     def run_cmd(cmd, skip_header=False, split_by=None):
         try:
@@ -56,15 +59,17 @@ def get_software_info():
             return []
 
     #displays info
-    print("\n=== System Information ===")
+    print("=== System Information ===")
     system_info = run_cmd(["lsb_release", "-d"])
     print(system_info[0] if system_info else "Unknown")
+    print()
 
-    print("\n=== Installed APT Packages ===")
+    print("=== Installed APT Packages ===")
     apt_packages = run_cmd(["dpkg-query", "-W", "-f=${Package} ${Version}\n"], split_by=" ")
     for pkg in apt_packages:
         print(f"{pkg[0]} - {pkg[1]}" if len(pkg) > 1 else pkg[0])
     print(f"...({len(apt_packages)} packages total)")
+    print()
 
 # Check for missing security patches
 def get_security_patches():
@@ -87,9 +92,11 @@ def get_security_patches():
     except subprocess.CalledProcessError as e:
         print(f"Error updating system: {e}")
 
+    print()
+
 # List auto runs
 def get_auto_runs():
-    print("=== List Auto Runs ===")
+    print("=== List Auto Run Services ===")
     autoruns = []
 
     # directories for autostart entries
@@ -115,14 +122,18 @@ def get_auto_runs():
     #for service in psutil.service_iter():
     #    autoruns.append(service.name())
 
-    for autorun in autoruns:
-        print(autorun)
+    if not autoruns:
+        print("[INFO] No auto run services found")
+    else:
+        for autorun in autoruns:
+            print(autorun)
 
+    print()
     return autoruns
 
 # identify USB History
 def get_usb_history():
-    print("=== Identify USB History ===")
+    print("=== USB Device History ===")
     usb_history = []
 
     # Run dmesg command to get kernel messages
@@ -139,9 +150,13 @@ def get_usb_history():
         if usb_event_pattern.search(line):
             usb_history.append(line.strip())
 
-    for event in usb_history:
-        print(event)
+    if not usb_history:
+        print("[INFO] No USB device history found")
+    else:
+        for event in usb_history:
+            print(event)
 
+    print()
     return usb_history
 
 if __name__ == "__main__":
