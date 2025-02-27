@@ -96,7 +96,7 @@ def get_security_patches():
 
 # List auto runs
 def get_auto_runs():
-    print("=== List Auto Runs ===")
+    print("=== List Auto Run Services ===")
     autoruns = []
 
     # directories for autostart entries
@@ -122,15 +122,18 @@ def get_auto_runs():
     #for service in psutil.service_iter():
     #    autoruns.append(service.name())
 
-    for autorun in autoruns:
-        print(autorun)
+    if not autoruns:
+        print("[INFO] No auto run services found")
+    else:
+        for autorun in autoruns:
+            print(autorun)
 
     print()
     return autoruns
 
 # identify USB History
 def get_usb_history():
-    print("=== Identify USB History ===")
+    print("=== USB Device History ===")
     usb_history = []
 
     # Run dmesg command to get kernel messages
@@ -147,8 +150,11 @@ def get_usb_history():
         if usb_event_pattern.search(line):
             usb_history.append(line.strip())
 
-    for event in usb_history:
-        print(event)
+    if not usb_history:
+        print("[INFO] No USB device history found")
+    else:
+        for event in usb_history:
+            print(event)
 
     print()
     return usb_history
