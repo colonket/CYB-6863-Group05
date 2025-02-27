@@ -36,13 +36,14 @@ def main():
 
 # List all active users on a system
 def get_active_users():
-    print("=== Active Users on the System (besides current user)===")
+    print("=== Active Users on the System ===")
     users = psutil.users()
     if not users:
         print("[INFO] No active users found on system")
     else:
         for user in users:
             print(user.name)  # print username
+        print(f"[INFO] {len[users]} other active users found")
     print()
 
 # Identify installed software and versions
@@ -83,14 +84,14 @@ def get_security_patches():
 
         #then it will/won't upgrade accordingly
         if security_updates:
-            print("Applying security updates...")
+            print("[INFO] Applying security updates...")
             subprocess.run(["sudo", "apt", "upgrade", "-y"], check=True)
         else:
-            print("No security updates available.")
+            print("[INFO] No security updates available.")
             
     #in case it errors out
     except subprocess.CalledProcessError as e:
-        print(f"Error updating system: {e}")
+        print(f"[ERROR] Error updating system: {e}")
 
     print()
 
@@ -127,6 +128,7 @@ def get_auto_runs():
     else:
         for autorun in autoruns:
             print(autorun)
+        print(f"[INFO] {len(autoruns)} auto run service(s) found")
 
     print()
     return autoruns
@@ -140,7 +142,7 @@ def get_usb_history():
     try:
         dmesg_output = subprocess.check_output(['sudo','dmesg'], stderr=subprocess.STDOUT).decode('utf-8')
     except subprocess.CalledProcessError as e:
-        print("Error running dmesg: ", e.output.decode('utf-8'))
+        print("[ERROR] Error running dmesg: ", e.output.decode('utf-8'))
         return []
 
     # regular expression to find USB events
@@ -155,6 +157,7 @@ def get_usb_history():
     else:
         for event in usb_history:
             print(event)
+        print(f"[INFO] {len(usb_history)} USB device(s) found")
 
     print()
     return usb_history
